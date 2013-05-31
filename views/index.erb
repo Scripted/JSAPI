@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <title>Scripted JSAPI Example</title>
+
+    <!-- This is the link to the Scripted JSAPI, hosted on Amazon's CDN -->
+    <script type="text/javascript" src="//d21fs2dffuo6hx.cloudfront.net/scripted.js"></script>
+
+    <!-- JQuery is only necessary here because initiateScriptedAPI must be called AFTER the document is ready. -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      // As mentioned above, initiateScriptedAPI must be called AFTER the document is ready.
+      // It takes three parameters:
+      //   1) The endpoint where you'd like to post the job details.
+      //   2) The javascript function to call immediately after the job is sent.
+      //   3) The javascript function to call with the successfully added job as a param.
+      $(document).ready(function(){
+        initiateScriptedAPI("/create_scripted_job", 
+          // This is the function that gets called immediately after a job has been submitted.
+          // You can do whatever you want here. In this example, we clear the form,
+          // reset the job's count, and alert the user.
+          function(){
+            document.getElementById("scr-ko-form").reset();
+            ScriptedJob.count(ScriptedJob.format().minCount);
+            alert("Thanks! Your job has been added.");
+          }, 
+          // This is the function that gets called once the job has been sent to Scripted.
+          // You can do whatever you want here. In this example, we append its topic to a list.
+          // It takes the job itself as its only param.
+          function(job){
+            var newLi = document.createElement("LI");
+            var t = document.createTextNode(job.topic);
+            newLi.appendChild(t);
+            document.getElementById("jobs-created").appendChild(newLi);
+          }
+        );
+      });
+    </script>
+  </head>
+  <body>
+
+  <!-- This is an example menu of formats. -->
+  <!-- To see the job creation form, you must call ScriptedJob.setFormat with a valid format_id -->
+  <!-- You can find all the valid format ids at scripted.com/api -->
+  <p>
+    <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a000011'); return false;">Website Page</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('4f62885ec79c6f42ab000038'); return false;">Email Newsletter</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a000012'); return false;">Press Release</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a00000b'); return false;">Standard Blog Post</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a000014'); return false;">White Paper</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a00000c'); return false;">Long Blog Post</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a000013'); return false;">Video Script</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('5058ddfed68412285d00044f'); return false;">Tweets</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('5058ddfed68412285d000450'); return false;">Facebook Posts</a> |
+    <a href="#" onclick="ScriptedJob.setFormat('511444735744056587005377'); return false;">Custom Photos</a>
+  </p>
+  
+  <!-- This is an example of something you could do with the returned jobs. -->
+  <ul id="jobs-created"></ul>
+
+  <%= erb(:create_form, :layout => false) %>
+
+  </body>
+</html>

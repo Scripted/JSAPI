@@ -1,0 +1,43 @@
+<!-- This is your own customizable scripted job creation form. -->
+<!-- You can add ids and classes or change copy. -->
+<!-- Place it wherever you want. -->
+<!-- It will only appear when you call ScriptedJob.setFormat with a valid Scripted format_id. -->
+<div id="scr-ko-wrpr">
+  <form id="scr-ko-form" data-bind="event: { submit: ScriptedJob.submit }">
+    <div data-bind="if:ScriptedJob.format() != undefined">
+      <div data-bind="if:!ScriptedJob.valid()" class='alert'>
+        <h2>Please provide more details</h2>
+      </div>
+      <div data-bind="if:ScriptedJob.tooFew()" class='alert'>
+        <h2>Warning! <span data-bind="text:ScriptedJob.format().pluralName()"></span> must be ordered in batches of at least <span data-bind="text:ScriptedJob.format().minCount"></span></h2>
+      </div>
+      <h1 data-bind="text:ScriptedJob.format().name"></h1>
+        <input type="hidden" name="format_id" data-bind="value: ScriptedJob.format().id">
+      <p>Get <input type="text" name="count" data-bind="value: count"> <span data-bind="text:ScriptedJob.format().pluralName()"></span> for $<span data-bind="text:ScriptedJob.price()"></span></p>
+      <div data-bind="foreach: ScriptedJob.format().fields()">
+        <h4><span data-bind="text:name"></span> <small data-bind="text:description"></small></h4>
+        <span data-bind="if:type == 'text_field'">
+          <input type="text" data-bind="attr: { id: id, name: inputName() }">
+        </span>
+        <span data-bind="if:type == 'text_area'">
+          <textarea data-bind="attr: { id: id, name: inputName() }"></textarea>
+        </span>
+        <span data-bind="if:type == 'checkboxes'">
+          <span data-bind="foreach:options">
+            <label class="checkbox inline">
+              <input type="checkbox" data-bind="attr: { name: checkboxName, value: label }"> <span data-bind="text:label"></span>
+            </label>
+          </span>
+        </span> 
+        <span data-bind="if:type == 'radios'">
+          <span data-bind="foreach:options">
+            <label class="radio inline">
+              <input type="radio" data-bind="attr: { name: radioName, value: label }"> <span data-bind="text:label"></span>
+            </label>
+          </span>
+        </span>  
+      </div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
