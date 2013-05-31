@@ -1,4 +1,4 @@
-# the Scripted Javascript API
+# Scripted Javascript API
 
 ## Installation
 
