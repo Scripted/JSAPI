@@ -4,7 +4,7 @@
 
 ### Link to the API
 
-Add this to the <head> of any HTML page:
+Add this to the **head** of any HTML page:
   
     <script type="text/javascript" src="//d21fs2dffuo6hx.cloudfront.net/scripted.js"></script>
     
