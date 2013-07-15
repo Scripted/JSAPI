@@ -1,48 +1,73 @@
 var ScriptedJob;
-function scrKOParams(){
-  var form = document.getElementById("scr-ko-form");
-  var params = new Array();
-  for (var i = 0; i < form.elements.length; i++) {
-    el = form.elements[i];
-    if (el.tagName == 'TEXTAREA'){
-      params[el.name] = el.value;
-    } else if (el.tagName == 'INPUT'){
-      if (el.type == 'text' || el.type == 'hidden'){
-        params[el.name] = el.value;
-      }
-      else if (el.type == 'radio' && el.checked){
-        if (!el.value) params[el.name] = "on";
-        else params[el.name] = el.value;
-      }
-      else if (el.type == 'checkbox' && el.checked){
-        if (!el.value) params[el.name] = "on";
-        else params[el.name] = el.value;
-      }
+function scrKOParams(job){
+    params = {};
+    params.count = job.count();
+    params.format_id = job.format().id;
+    params.form_fields = {};
+    var formatFields = job.format().fields();
+    for(var i = 0; i < formatFields.length; i++){
+        var field = formatFields[i];
+        params.form_fields[field.id] = field.parameterizedValue();
     }
-  }
+    console.dir(params);
   return params;
 }
 function ScrKOOption(parentId, label){
   var self = this;
-  self.parentId = parentId;
+  self.parentId = ko.observable(parentId);
   self.label = label;
-  self.id = function(){ return self.label.toLowerCase().replace(" ", "_"); };
-  self.checkboxName = ko.computed(function(){
-    return "form_fields[" + self.parentId + "][" + self.id() + "]";
-  });
-  self.radioName = ko.computed(function(){
-    return "form_fields[" + self.parentId + "]";
-  });
+  self.checked = ko.observable(false);
 }
 function ScrKOField(v){
   var self = this;
+  var numBullets = 5;
   self.id = v[0];
   self.name =  v[1];
   self.description = v[2];
   self.type = v[3];
   self.options = [];
+  self.value = ko.observable();
+  self.bullets = ko.observableArray();
+  self.addBullet = function(){
+      self.bullets.push(new ScrKOBullet(self.bullets().length));
+  }
+  if(self.type == 'bullets'){
+      for(var i = 0; i < numBullets; i++){
+          self.addBullet();
+      }
+  }
+
   if (v[4]) for (var k = 0; k < v[4].length; k++) self.options.push(new ScrKOOption(self.id, v[4][k]));
-  self.inputName = function(){ return "form_fields[" + self.id + "]"; };
+  self.parameterizedValue = function(){
+      var value;
+      if(self.type == 'bullets'){
+          value = [];
+          for(var i = 0; i < self.bullets().length; i++){
+              var v = self.bullets()[i].value();
+              if(v) value.push(v);
+          }
+      } else if(self.type == 'text_field' || self.type == 'text_area'){
+          value = self.value();
+      } else if(self.type == 'checkboxes'){
+          value = [];
+          for(var i = 0; i < self.options.length; i++){
+              var v = self.options[i];
+              if(v.checked()) value.push(v.label);         
+          } 
+      } else if(self.type == 'radios'){
+          var checked = ko.utils.arrayFirst(self.options, function(item) {
+              return item.checked();
+          });
+          
+          if(checked != undefined) value = checked.label;
+      }
+      
+      return value;
+  }
+}
+function ScrKOBullet(index){
+    this.index = index;
+    this.value = ko.observable();
 }
 function ScrKOFormat(id, name, price, minCount){
   var self = this;
@@ -89,40 +114,40 @@ function ScrKOJob(submissionUrl, submittedFunction, callbackFunction) {
         }
       }
     }
-    ajax.open("GET","https://scripted.com/formats", true);
+    ajax.open("GET","/formats.json", true);
     ajax.send();
   };
   self.valid = ko.observable(true);
   self.submit = function(){
     if (!self.tooFew()){
       self.valid(true);
-      var params = scrKOParams();
-      var paramString = "";
+      var params = scrKOParams(self);
       var detailsLength = 0;
-      for (var i = 0; i < Object.keys(params).length; i++){
+      for (var i = 0; i < Object.keys(params.form_fields).length; i++){
         var n = Object.keys(params)[i];
         var v = params[n];
-        if (n == "form_fields[topic]"){
+        if (n == "topic"){
           if (v.length < 10) self.valid(false);
         } else {
-          if (n != "format_id" && n != "count") detailsLength += v.length;
+          if(typeof v == 'string') detailsLength += v.length;
         }
-        paramString += n + "=" + encodeURIComponent(v) + "&"
       }
-      console.log(detailsLength);
+      console.dir(params);
+      var paramString = JSON.stringify(params);
+      console.log(paramString);
       if (detailsLength < 10) self.valid(false);
       if (self.valid()){
         var ajax = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
         ajax.onreadystatechange = function(){
           if (ajax.readyState == 4 && ajax.status == 200){
             var job = JSON.parse(ajax.responseText);
-            if (callbackFunction && callbackFunction != undefined) callbackFunction(job);
+            if (callbackFunction) callbackFunction(job);
           }
         };
         ajax.open("POST", submissionUrl, true);
-        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        ajax.setRequestHeader("Content-type", "application/json");
         ajax.send(paramString);
-        if (submittedFunction && submittedFunction != undefined) submittedFunction();
+        if (submittedFunction) submittedFunction();
       }
     }
     return false;

@@ -1,0 +1,386 @@
+[
+   {
+      "id":"4f0ffb43d684123c5a000011",
+      "price":69.0,
+      "name":"Website Page",
+      "min_count":1,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like the writing to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "keywords",
+            "Keywords",
+            "For SEO Purposes.",
+            "bullets",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "checkboxes",
+            ["dogs cats murads", "see spot go"]
+         ]
+      ]
+   },
+   {
+      "id":"4f0ffb43d684123c5a000012",
+      "price":149.0,
+      "name":"Press Release",
+      "min_count":1,
+      "form_fields":[
+         [
+            "purpose",
+            "Purpose",
+            "What is being announced?",
+            "text_field",
+            null
+         ],
+         [
+            "distribution",
+            "Distribution",
+            "Where will you be sending the Press Release?.",
+            "text_field",
+            null
+         ],
+         [
+            "your_company",
+            "Your Company",
+            "What details about your company should be included in the Release?",
+            "text_area",
+            null
+         ],
+         [
+            "quotes",
+            "Quotes",
+            "From relevant individuals in your company about this new initiative.",
+            "text_area",
+            null
+         ],
+         [
+            "keywords",
+            "Keywords",
+            "For SEO Purposes.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"4f0ffb43d684123c5a00000b",
+      "price":49.0,
+      "name":"Standard Blog Post",
+      "min_count":1,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like the post to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "things_to_mention",
+            "Things to Mention",
+            "Thought leaders in your industry, things about your company, etc.",
+            "text_field",
+            null
+         ],
+         [
+            "things_to_avoid",
+            "Things to Avoid",
+            "Competitors, Religion, Politics, etc.",
+            "text_field",
+            null
+         ],
+         [
+            "sample_blog",
+            "Sample Blog",
+            "Either existing company blog or blog with an approach you love.",
+            "text_field",
+            null
+         ],
+         [
+            "preferred_structure",
+            "Preferred Structure",
+            "Paragraphs, Subheaders, etc.",
+            "text_field",
+            null
+         ],
+         [
+            "keywords",
+            "Keywords",
+            "Help us find relevant writers.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ],
+         [
+            "references",
+            "References",
+            "Should we provide links to sources?",
+            "radios",
+            [
+               "yes",
+               "no"
+            ]
+         ]
+      ]
+   },
+   {
+      "id":"4f0ffb43d684123c5a000014",
+      "price":299.0,
+      "name":"White Paper",
+      "min_count":1,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like the writing to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "outline",
+            "Outline",
+            "Brief points you want included, and websites with relevant resources if available.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"4f0ffb43d684123c5a00000c",
+      "price":59.0,
+      "name":"Long Blog Post",
+      "min_count":1,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like the post to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "things_to_mention",
+            "Things to Mention",
+            "Thought leaders in your industry, things about your company, etc.",
+            "text_field",
+            null
+         ],
+         [
+            "things_to_avoid",
+            "Things to Avoid",
+            "Competitors, Religion, Politics, etc.",
+            "text_field",
+            null
+         ],
+         [
+            "sample_blog",
+            "Sample Blog",
+            "Either existing company blog or blog with an approach you love.",
+            "text_field",
+            null
+         ],
+         [
+            "preferred_structure",
+            "Preferred Structure",
+            "Paragraphs, Subheaders, etc.",
+            "text_field",
+            null
+         ],
+         [
+            "keywords",
+            "Keywords",
+            "For SEO Purposes.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"4f0ffb43d684123c5a000013",
+      "price":199.0,
+      "name":"Video Script",
+      "min_count":1,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like the writing to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "outline",
+            "Outline",
+            "Brief points you want included, and websites with relevant resources if available.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"5058ddfed68412285d00044f",
+      "price":2.0,
+      "name":"Tweets",
+      "min_count":25,
+      "form_fields":[
+         [
+            "hashtags",
+            "Hashtags",
+            "Which hashtags should your writer use?",
+            "text_field",
+            null
+         ],
+         [
+            "handles_to_mention",
+            "Handles to Mention",
+            "Your twitter handle and other industry peers.",
+            "text_field",
+            null
+         ],
+         [
+            "handles_to_emulate",
+            "Handles to Emulate",
+            "Either your twitter handle, or one with an approach you love.",
+            "text_field",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"5058ddfed68412285d000450",
+      "price":3.0,
+      "name":"Facebook Posts",
+      "min_count":25,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like the writing to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "keywords",
+            "Keywords",
+            "For SEO Purposes.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"511444735744056587005377",
+      "price":100.0,
+      "name":"Custom Photos",
+      "min_count":2,
+      "form_fields":[
+         [
+            "photo_subject",
+            "Photo subject",
+            "What is the general subject?",
+            "text_field",
+            null
+         ],
+         [
+            "shoot_description",
+            "Shoot description",
+            "What do you want the photographer to do?",
+            "text_area",
+            null
+         ],
+         [
+            "specific_requirements",
+            "Specific requirements",
+            "What specific requirements do you have, if any?",
+            "text_area",
+            null
+         ]
+      ]
+   },
+   {
+      "id":"4f62885ec79c6f42ab000038",
+      "price":49.0,
+      "name":"Email Newsletter",
+      "min_count":1,
+      "form_fields":[
+         [
+            "topic",
+            "Topic",
+            "Describe what you'd like this piece to discuss.",
+            "text_field",
+            null
+         ],
+         [
+            "outline",
+            "Outline",
+            "Brief points you want included, and websites with relevant resources if available.",
+            "text_area",
+            null
+         ],
+         [
+            "additional_notes",
+            "Additional Notes",
+            "Anything else?",
+            "text_area",
+            null
+         ]
+      ]
+   }
+]

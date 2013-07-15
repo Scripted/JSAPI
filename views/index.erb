@@ -3,8 +3,10 @@
     <title>Scripted JSAPI Example</title>
 
     <!-- This is the link to the Scripted JSAPI, hosted on Amazon's CDN -->
-    <script type="text/javascript" src="//d21fs2dffuo6hx.cloudfront.net/scripted.js"></script>
+    <!--script type="text/javascript" src="//d21fs2dffuo6hx.cloudfront.net/scripted.js"></script-->
 
+	<script type="text/javascript" src="/api.js"></script>
+	<script type="text/javascript" src="/knockout.js"></script>
     <!-- JQuery is only necessary here because initiateScriptedAPI must be called AFTER the document is ready. -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
@@ -32,6 +34,7 @@
             var t = document.createTextNode(job.topic);
             newLi.appendChild(t);
             document.getElementById("jobs-created").appendChild(newLi);
+            console.dir(job);
           }
         );
       });

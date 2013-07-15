@@ -12,27 +12,32 @@
         <h2>Warning! <span data-bind="text:ScriptedJob.format().pluralName()"></span> must be ordered in batches of at least <span data-bind="text:ScriptedJob.format().minCount"></span></h2>
       </div>
       <h1 data-bind="text:ScriptedJob.format().name"></h1>
-        <input type="hidden" name="format_id" data-bind="value: ScriptedJob.format().id">
       <p>Get <input type="text" name="count" data-bind="value: count"> <span data-bind="text:ScriptedJob.format().pluralName()"></span> for $<span data-bind="text:ScriptedJob.price()"></span></p>
       <div data-bind="foreach: ScriptedJob.format().fields()">
         <h4><span data-bind="text:name"></span> <small data-bind="text:description"></small></h4>
         <span data-bind="if:type == 'text_field'">
-          <input type="text" data-bind="attr: { id: id, name: inputName() }">
+          <input type="text" data-bind="value: value">
         </span>
         <span data-bind="if:type == 'text_area'">
-          <textarea data-bind="attr: { id: id, name: inputName() }"></textarea>
+          <textarea data-bind="value: value"></textarea>
+        </span>
+        <span data-bind="if:type == 'bullets'">
+        	<span data-bind="foreach:bullets">
+				<input type="text" data-bind="value: value">
+			</span>
+			<a href="#" data-bind="click: addBullet">Add Bullet</a>
         </span>
         <span data-bind="if:type == 'checkboxes'">
           <span data-bind="foreach:options">
             <label class="checkbox inline">
-              <input type="checkbox" data-bind="attr: { name: checkboxName, value: label }"> <span data-bind="text:label"></span>
+              <input type="checkbox" data-bind="checked: checked"> <span data-bind="text:label"></span>
             </label>
           </span>
         </span> 
         <span data-bind="if:type == 'radios'">
           <span data-bind="foreach:options">
             <label class="radio inline">
-              <input type="radio" data-bind="attr: { name: radioName, value: label }"> <span data-bind="text:label"></span>
+              <input type="radio" data-bind="checked: checked, attr: { name: parentId}"> <span data-bind="text:label"></span>
             </label>
           </span>
         </span>  
