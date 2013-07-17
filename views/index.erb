@@ -3,21 +3,29 @@
     <title>Scripted JSAPI Example</title>
 
     <!-- This is the link to the Scripted JSAPI, hosted on Amazon's CDN -->
-    <!--script type="text/javascript" src="//d21fs2dffuo6hx.cloudfront.net/scripted.js"></script-->
-
-	<script type="text/javascript" src="/api.js"></script>
-	<script type="text/javascript" src="/knockout.js"></script>
+    <script type="text/javascript" src="//dqwfo90o1roqt.cloudfront.net/scripted.js"></script>
+    
     <!-- JQuery is only necessary here because initiateScriptedAPI must be called AFTER the document is ready. -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 
     <script type="text/javascript">
       // As mentioned above, initiateScriptedAPI must be called AFTER the document is ready.
-      // It takes three parameters:
-      //   1) The endpoint where you'd like to post the job details.
-      //   2) The javascript function to call immediately after the job is sent.
-      //   3) The javascript function to call with the successfully added job as a param.
-      $(document).ready(function(){
-        initiateScriptedAPI("/create_scripted_job", 
+      // It takes four parameters:
+      //   1) String: The endpoint where you'd like to post the job details.
+      //   2) Boolean: Whether or not to include multiple-selects for industries and guidelines.
+      //   3) Function: What to call immediately after the job is sent.
+      //   4) Function: What to call with the successfully added job as a param.
+      $(document).ready(function(){ 
+        initiateScriptedAPI(
+          // This is the endpoint on your server that handles the parameters 
+          // and passes them to Scripted. See the example in controller.rb
+          "/create_scripted_job",
+          // If you don't want to include selects for industries and guidelines,
+          // you can set default values for each by logging into your Scripted dashboard.
+          // Alternatively, you could add functionality in your own dashboard that
+          // assigns two arrays (for industry and guideline ids) to each of your customers.
+          // You could then pass those arrays from your server to the Scripted API on job creation.
+          true,
           // This is the function that gets called immediately after a job has been submitted.
           // You can do whatever you want here. In this example, we clear the form,
           // reset the job's count, and alert the user.
@@ -34,7 +42,6 @@
             var t = document.createTextNode(job.topic);
             newLi.appendChild(t);
             document.getElementById("jobs-created").appendChild(newLi);
-            console.dir(job);
           }
         );
       });

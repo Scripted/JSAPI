@@ -14,15 +14,25 @@ Paste the [job creation form](/views/create_form.erb) wherever you'd like it in 
 
 ### Initiate the API
 
-The initiation function takes three parameters:
+The initiation function takes four parameters:
 
-+ The endpoint where you'd like to post the job details.
-+ The javascript function to call immediately after the job is sent.
-+ The javascript function to call with the successfully added job as a param.
++ **String** The endpoint where you'd like to post the job details.
++ **Boolean** Whether or not to include multiple-selects for industries and guidelines.
++ **Function** What to call immediately after the job is sent.
++ **Function** What to call with the successfully added job as a param.
 
 Call it **once the document is ready**.
 
-    initiateScriptedAPI("/create_scripted_job", 
+    initiateScriptedAPI(
+      // This is the endpoint on your server that handles the parameters 
+      // and passes them to Scripted. See the example in controller.rb
+      "/create_scripted_job",
+      // If you don't want to include selects for industries and guidelines,
+      // you can set default values for each by logging into your Scripted dashboard.
+      // Alternatively, you could add functionality in your own dashboard that
+      // assigns two arrays (for industry and guideline ids) to each of your customers.
+      // You could then pass those arrays from your server to the Scripted API on job creation.
+      true,
       // This is the function that gets called immediately after a job has been submitted.
       // You can do whatever you want here. In this example, we clear the form,
       // reset the job's count, and alert the user.
@@ -41,6 +51,7 @@ Call it **once the document is ready**.
         document.getElementById("jobs-created").appendChild(newLi);
       }
     );
+    
 
 ### Customize the Form
 
@@ -52,7 +63,7 @@ You can find some sample server-side code in [the controller](/controller.rb), b
 
 ## Demo
 
-If you'd like to demo the API, you should be able to clone this repository, cd into the directory and run
+If you'd like to demo the API, you should be able to clone this repository, cd into the directory, install the required gems, and run
 
     ruby controller.rb
     

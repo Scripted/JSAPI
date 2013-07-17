@@ -5,11 +5,13 @@
 <div id="scr-ko-wrpr">
   <form id="scr-ko-form" data-bind="event: { submit: ScriptedJob.submit }">
     <div data-bind="if:ScriptedJob.format() != undefined">
-      <div data-bind="if:!ScriptedJob.valid()" class='alert'>
-        <h2>Please provide more details</h2>
-      </div>
       <div data-bind="if:ScriptedJob.tooFew()" class='alert'>
         <h2>Warning! <span data-bind="text:ScriptedJob.format().pluralName()"></span> must be ordered in batches of at least <span data-bind="text:ScriptedJob.format().minCount"></span></h2>
+      </div>
+      <div data-bind="if:ScriptedJob.errors().length > 0" class='alert'>
+        <ul data-bind="foreach: ScriptedJob.errors">
+          <li>Error: <span data-bind="text:$data"></span></li>
+        </ul>
       </div>
       <h1 data-bind="text:ScriptedJob.format().name"></h1>
       <p>Get <input type="text" name="count" data-bind="value: count"> <span data-bind="text:ScriptedJob.format().pluralName()"></span> for $<span data-bind="text:ScriptedJob.price()"></span></p>
@@ -41,6 +43,14 @@
             </label>
           </span>
         </span>  
+      </div>
+      <div data-bind="if:ScriptedJob.industriesAndGuidelines">
+        <h3>Industries and Guidelines</h3>
+        <p style="color:gray">Hold down Ctrl (Windows) or Command (Mac) to select multiple options.</p>
+        <label>Which industries should your writers understand?</label>
+        <p><select data-bind="options: ScriptedJob.industries, optionsText: 'name', selectedOptions: selectedIndustries" multiple="true"></select></p>
+        <label>What tone should your writers use?</label>
+        <p><select data-bind="options: ScriptedJob.guidelines, optionsText: 'name', selectedOptions: selectedGuidelines" multiple="true"></select></p>
       </div>
       <input type="submit" value="Submit">
     </div>
