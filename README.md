@@ -6,7 +6,7 @@
 
 Add this to the **head** of any HTML page:
   
-    <script type="text/javascript" src="//d21fs2dffuo6hx.cloudfront.net/scripted.js"></script>
+    <script type="text/javascript" src="//dqwfo90o1roqt.cloudfront.net/scripted.js"></script>
     
 ### Add the Form
 
