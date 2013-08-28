@@ -1,85 +1,12 @@
 var ScriptedJob;
-var SCR_TOPIC_ERROR = "Please provide a more descriptive topic.";
-var SCR_TOPIC_THRESHOLD = 10;
-var SCR_DETAIL_ERROR = "Please provide more details.";
-var SCR_DETAIL_THRESHOLD = 10;
-function ScrKOOption(parentId, label){
-  var self = this;
-  self.parentId = ko.observable(parentId);
-  self.label = label;
-  self.checked = ko.observable(false);
-}
-function ScrKOField(v){
-  var self = this;
-  var numBullets = 3;
-  self.id = v[0];
-  self.name =  v[1];
-  self.description = v[2];
-  self.type = v[3];
-  self.options = [];
-  self.value = ko.observable();
-  self.bullets = ko.observableArray();
-  self.addBullet = function(){
-    self.bullets.push(new ScrKOBullet(self.bullets().length));
-  }
-  self.parameterizedValue = function() {
-    var value;
-    if (self.type == 'bullets') {
-      value = [];
-      for (var i = 0; i < self.bullets().length; i++) {
-        var v = self.bullets()[i].value();
-        if (v) value.push(v);
-      }
-    } else if (self.type == 'text_field' || self.type == 'text_area') {
-      value = self.value();
-    } else if (self.type == 'checkboxes') {
-      value = [];
-      for(var i = 0; i < self.options.length; i++){
-        var v = self.options[i];
-        if (v.checked()) value.push(v.label);
-      }
-    } else if (self.type == 'radios') {
-      var checked = ko.utils.arrayFirst(self.options, function(item) {
-        return item.checked();
-      });
-      if (checked) value = checked.label;
-    }
-    return value;
-  }
-  self.load = function(){
-    if (self.type == 'bullets') {
-      for (var i = 0; i < numBullets; i++) self.addBullet();
-    }
-    if (v[4]) {
-      for (var k = 0; k < v[4].length; k++) self.options.push(new ScrKOOption(self.id, v[4][k]));
-    }
-  };
-  self.load();
-}
-function ScrKOBullet(index){
-  this.index = index;
-  this.value = ko.observable();
-}
-function ScrKOFormat(id, name, price, minCount){
-  var self = this;
-  self.id = id;
-  self.name = name;
-  self.pluralName = ko.computed(function(){
-    return self.name.charAt(self.name.length - 1) == "s" ? self.name : self.name + "s";
-  });
-  self.price = price;
-  self.minCount = minCount;
-  self.fields = ko.observableArray();
-}
-function ScrKOGuideline(id, name, kind){
-  this.id = id;
-  this.name = kind + ": " + name;
-}
-function ScrKOIndustry(id, name){
-  this.id = id;
-  this.name = name;
-}
 function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, callbackFunction) {
+  
+  // Constants
+  var SCR_TOPIC_ERROR = "Please provide a more descriptive topic.";
+  var SCR_TOPIC_THRESHOLD = 10;
+  var SCR_DETAIL_ERROR = "Please provide more details.";
+  var SCR_DETAIL_THRESHOLD = 10;
+  
   var self = this;
   self.count = ko.observable();
   self.industriesAndGuidelines = industriesAndGuidelines;
@@ -114,9 +41,9 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
   };
   self.parseFormats = function(formats){
     for (var i = 0; i < formats.length; i++){
-      var f = new ScrKOFormat(formats[i]["id"], formats[i]["name"], formats[i]["price"], formats[i]["min_count"]);
+      var f = new Format(formats[i]["id"], formats[i]["name"], formats[i]["price"], formats[i]["min_count"]);
       for (var j = 0; j < formats[i]["form_fields"].length; j++){
-        f.fields.push(new ScrKOField(formats[i]["form_fields"][j]));
+        f.fields.push(new Field(formats[i]["form_fields"][j]));
       }
       self.formats.push(f);
     }
@@ -137,7 +64,7 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
   self.selectedIndustries = ko.observableArray();
   self.parseIndustries = function(industries){
     for (var i = 0; i < industries.length; i++){
-      var industry = new ScrKOIndustry(industries[i]["id"], industries[i]["name"]);
+      var industry = new Industry(industries[i]["id"], industries[i]["name"]);
       self.industries.push(industry);
     }
   };
@@ -147,7 +74,7 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
   self.selectedGuidelines = ko.observableArray();
   self.parseGuidelines = function(guidelines){
     for (var i = 0; i < guidelines.length; i++){
-      var guideline = new ScrKOGuideline(guidelines[i]["id"], guidelines[i]["name"], guidelines[i]["kind"]);
+      var guideline = new Guideline(guidelines[i]["id"], guidelines[i]["name"], guidelines[i]["kind"]);
       self.guidelines.push(guideline);
     }
   }
@@ -206,6 +133,79 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
     }
     return false;
   };
+  function Option(parentId, label){
+    var self = this;
+    self.parentId = ko.observable(parentId);
+    self.label = label;
+    self.checked = ko.observable(false);
+  }
+  function Field(v){
+    var self = this;
+    var numBullets = 3;
+    self.id = v[0];
+    self.name =  v[1];
+    self.description = v[2];
+    self.type = v[3];
+    self.options = [];
+    self.value = ko.observable();
+    self.bullets = ko.observableArray();
+    self.addBullet = function(){
+      self.bullets.push(new Bullet(self.bullets().length));
+    }
+    self.parameterizedValue = function() {
+      var value;
+      if (self.type == 'bullets') {
+        value = [];
+        for (var i = 0; i < self.bullets().length; i++) {
+          var v = self.bullets()[i].value();
+          if (v) value.push(v);
+        }
+      } else if (self.type == 'text_field' || self.type == 'text_area') {
+        value = self.value();
+      } else if (self.type == 'checkboxes') {
+        value = [];
+        for(var i = 0; i < self.options.length; i++){
+          var v = self.options[i];
+          if (v.checked()) value.push(v.label);
+        }
+      } else if (self.type == 'radios') {
+        var checked = ko.utils.arrayFirst(self.options, function(item) { return item.checked(); });
+        if (checked) value = checked.label;
+      }
+      return value;
+    }
+    self.load = function(){
+      if (self.type == 'bullets') {
+        for (var i = 0; i < numBullets; i++) self.addBullet();
+      }
+      if (v[4]) {
+        for (var k = 0; k < v[4].length; k++) self.options.push(new Option(self.id, v[4][k]));
+      }
+    };
+    self.load();
+  }
+  function Bullet(index){
+    this.value = ko.observable();
+  }
+  function Format(id, name, price, minCount){
+    var self = this;
+    self.id = id;
+    self.name = name;
+    self.pluralName = ko.computed(function(){
+      return self.name.charAt(self.name.length - 1) == "s" ? self.name : self.name + "s";
+    });
+    self.price = price;
+    self.minCount = minCount;
+    self.fields = ko.observableArray();
+  }
+  function Guideline(id, name, kind){
+    this.id = id;
+    this.name = kind + ": " + name;
+  }
+  function Industry(id, name){
+    this.id = id;
+    this.name = name;
+  }
 }
 function initiateScriptedAPI(submissionUrl, industriesAndGuidelines, submittedFunction, callbackFunction){
   ScriptedJob = new ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, callbackFunction);

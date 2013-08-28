@@ -25,9 +25,9 @@
         </span>
         <span data-bind="if:type == 'bullets'">
         	<span data-bind="foreach:bullets">
-				<input type="text" data-bind="value: value">
-			</span>
-			<a href="#" data-bind="click: addBullet">Add Bullet</a>
+				    <input type="text" data-bind="value: value">
+			    </span>
+			    <a href="#" data-bind="click: addBullet">Add Bullet</a>
         </span>
         <span data-bind="if:type == 'checkboxes'">
           <span data-bind="foreach:options">
@@ -39,7 +39,7 @@
         <span data-bind="if:type == 'radios'">
           <span data-bind="foreach:options">
             <label class="radio inline">
-              <input type="radio" data-bind="checked: checked, attr: { name: parentId}"> <span data-bind="text:label"></span>
+              <input type="radio" data-bind="checked: checked, attr: { name: parentId }"> <span data-bind="text:label"></span>
             </label>
           </span>
         </span>  

@@ -1,9 +1,20 @@
+require 'rubygems'
 require 'sinatra'
 require 'erb'
 require 'json'
 require 'net/http'
 
 set :bind, '0.0.0.0'
+
+get '/scriptedApi.js' do
+  content_type :js
+  send_file "scriptedApi.js"
+end
+
+get '/knockout.js' do
+  content_type :js
+  send_file "knockout.js"
+end
 
 get '/' do
   erb :index

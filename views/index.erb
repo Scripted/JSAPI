@@ -3,7 +3,11 @@
     <title>Scripted JSAPI Example</title>
 
     <!-- This is the link to the Scripted JSAPI, hosted on Amazon's CDN -->
-    <script type="text/javascript" src="//dqwfo90o1roqt.cloudfront.net/scripted.js"></script>
+    <!-- <script type="text/javascript" src="//dqwfo90o1roqt.cloudfront.net/scripted.js"></script> -->
+    
+    
+    <script type="text/javascript" src="/scriptedApi.js"></script>
+    <script type="text/javascript" src="/knockout.js"></script>
     
     <!-- JQuery is only necessary here because initiateScriptedAPI must be called AFTER the document is ready. -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -25,7 +29,7 @@
           // Alternatively, you could add functionality in your own dashboard that
           // assigns two arrays (for industry and guideline ids) to each of your customers.
           // You could then pass those arrays from your server to the Scripted API on job creation.
-          true,
+          false,
           // This is the function that gets called immediately after a job has been submitted.
           // You can do whatever you want here. In this example, we clear the form,
           // reset the job's count, and alert the user.
