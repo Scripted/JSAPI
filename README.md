@@ -1,4 +1,4 @@
-# Scripted Javascript API
+# Scripted JavaScript API
 
 ## Installation
 
@@ -63,7 +63,14 @@ You can find some sample server-side code in [the controller](/controller.rb), b
 
 ## Demo
 
-If you'd like to demo the API, you should be able to clone this repository, cd into the directory, install the required gems, and run
+If you want to tinker with the JavaScript API itself, you should checkout the [Editable branch](/tree/Editable). To get the demo set up, just clone this repository, cd into the directory, install the required gems
+    
+    gem install rubygems
+    gem install sinatra
+    gem install erb
+    gem install json
+
+and then run
 
     ruby controller.rb
     
