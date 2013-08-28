@@ -63,7 +63,7 @@ You can find some sample server-side code in [the controller](/controller.rb), b
 
 ## Demo
 
-If you want to tinker with the JavaScript API itself, you should checkout the [Editable branch](/tree/Editable). To get the demo set up, just clone this repository, cd into the directory, install the required gems
+If you want to tinker with the JavaScript API itself, you should checkout the [Editable branch](https://github.com/Scripted/JSAPI/tree/Editable). To get the demo set up, just clone this repository, cd into the directory, install the required gems
     
     gem install rubygems
     gem install sinatra
