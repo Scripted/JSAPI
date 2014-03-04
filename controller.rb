@@ -13,7 +13,6 @@ end
 post '/create_scripted_job' do
 
   params = JSON.parse(request.body.read)
-  
   # The params that the javasript api sends to the controller will look like this:
   
   # { 
