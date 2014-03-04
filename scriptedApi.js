@@ -2,10 +2,11 @@ var ScriptedJob;
 function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, callbackFunction) {
   
   // Constants
-  var SCR_TOPIC_ERROR = "Please provide a more descriptive topic.";
-  var SCR_TOPIC_THRESHOLD = 10;
-  var SCR_DETAIL_ERROR = "Please provide more details.";
-  var SCR_DETAIL_THRESHOLD = 10;
+  var TOPIC_ERROR = "Please provide a more descriptive topic.";
+  var TOPIC_THRESHOLD = 10;
+  var DETAIL_ERROR = "Please provide more details.";
+  var DETAIL_THRESHOLD = 10;
+  var EXPERTISE_MARKUP = 2;
   
   var self = this;
   self.count = ko.observable();
@@ -56,15 +57,42 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
   });
   self.price = ko.computed(function(){
     if (self.format() == undefined) return 0;
-    return parseInt(self.count()) * self.format().price;
+    var p = parseInt(self.count()) * self.format().price;
+    if (self.requiresExpertise()) p *= EXPERTISE_MARKUP;
+    return p;
   });
+
+  // Teams
+  self.getTeams = function(){
+    self.teams([]);
+    if (self.requiresExpertise()){
+      var query = "?";
+      for (var i = 0; i < self.selectedIndustries().length; i++){
+        query += "industry_ids[]=";
+        query += self.selectedIndustries()[i].id;
+        query += "&";
+      }
+      self.getResources("https://scripted.com/teams" + query, self.parseTeams);
+    }
+  };
+  self.requiresExpertise = ko.observable(false);
+  self.requiresExpertise.subscribe(self.getTeams);
+  self.teams = ko.observableArray();
+  self.selectedTeam = ko.observable();
+  self.parseTeams = function(teams){
+    self.teams([]);
+    for (var i = 0; i < teams.length; i++){
+      self.teams.push(new Team(teams[i].id, teams[i].name));
+    }
+  };
   
   // Industries
   self.industries = ko.observableArray();
   self.selectedIndustries = ko.observableArray();
+  self.selectedIndustries.subscribe(self.getTeams);
   self.parseIndustries = function(industries){
     for (var i = 0; i < industries.length; i++){
-      var industry = new Industry(industries[i]["id"], industries[i]["name"]);
+      var industry = new Industry(industries[i].id, industries[i].name);
       self.industries.push(industry);
     }
   };
@@ -74,10 +102,10 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
   self.selectedGuidelines = ko.observableArray();
   self.parseGuidelines = function(guidelines){
     for (var i = 0; i < guidelines.length; i++){
-      var guideline = new Guideline(guidelines[i]["id"], guidelines[i]["name"], guidelines[i]["kind"]);
+      var guideline = new Guideline(guidelines[i].id, guidelines[i].name, guidelines[i].kind);
       self.guidelines.push(guideline);
     }
-  }
+  };
   
   self.errors = ko.observableArray();
   self.parameterize = function(){
@@ -87,6 +115,7 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
     if (self.industriesAndGuidelines){
       params.industry_ids = self.collectResourceIds(self.selectedIndustries());
       params.guideline_ids = self.collectResourceIds(self.selectedGuidelines());
+      if (self.requiresExpertise() && self.selectedTeam()) params.team_id = self.selectedTeam().id;
     }
     params.form_fields = new Object();
     var formatFields = self.format().fields();
@@ -95,7 +124,7 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
       params.form_fields[field.id] = field.parameterizedValue();
     }
     return params;
-  }
+  };
   self.validParamString = function() {
     self.errors([]);
     var params = self.parameterize();
@@ -104,12 +133,12 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
       var n = Object.keys(params.form_fields)[i];
       var v = params.form_fields[n];
       if (n == "topic"){
-        if (v == undefined || v.length < SCR_TOPIC_THRESHOLD) self.errors.push(SCR_TOPIC_ERROR);
+        if (v == undefined || v.length < TOPIC_THRESHOLD) self.errors.push(TOPIC_ERROR);
       } else {
         if (typeof(v) == 'string') detailsLength += v.length;
       }
     }
-    if (detailsLength < SCR_DETAIL_THRESHOLD) self.errors.push(SCR_DETAIL_ERROR);
+    if (detailsLength < DETAIL_THRESHOLD) self.errors.push(DETAIL_ERROR);
     if (self.errors().length == 0) return JSON.stringify(params);
     return false;
   };
@@ -203,6 +232,10 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
     this.name = kind + ": " + name;
   }
   function Industry(id, name){
+    this.id = id;
+    this.name = name;
+  }
+  function Team(id, name){
     this.id = id;
     this.name = name;
   }

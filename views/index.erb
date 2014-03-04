@@ -29,7 +29,7 @@
           // Alternatively, you could add functionality in your own dashboard that
           // assigns two arrays (for industry and guideline ids) to each of your customers.
           // You could then pass those arrays from your server to the Scripted API on job creation.
-          false,
+          true,
           // This is the function that gets called immediately after a job has been submitted.
           // You can do whatever you want here. In this example, we clear the form,
           // reset the job's count, and alert the user.
@@ -66,7 +66,6 @@
     <a href="#" onclick="ScriptedJob.setFormat('4f0ffb43d684123c5a000013'); return false;">Video Script</a> |
     <a href="#" onclick="ScriptedJob.setFormat('5058ddfed68412285d00044f'); return false;">Tweets</a> |
     <a href="#" onclick="ScriptedJob.setFormat('5058ddfed68412285d000450'); return false;">Facebook Posts</a> |
-    <a href="#" onclick="ScriptedJob.setFormat('511444735744056587005377'); return false;">Custom Photos</a>
   </p>
   
   <!-- This is an example of something you could do with the returned jobs. -->
