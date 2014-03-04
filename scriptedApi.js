@@ -42,9 +42,9 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
   };
   self.parseFormats = function(formats){
     for (var i = 0; i < formats.length; i++){
-      var f = new ScrKOFormat(formats[i]["id"], formats[i]["name"], formats[i]["price"], formats[i]["min_count"]);
+      var f = new Format(formats[i]["id"], formats[i]["name"], formats[i]["price"], formats[i]["min_count"]);
       for (var j = 0; j < formats[i]["form_fields"].length; j++){
-        f.fields.push(new ScrKOField(formats[i]["form_fields"][j]));
+        f.fields.push(new Field(formats[i]["form_fields"][j]));
       }
       self.formats.push(f);
     }
