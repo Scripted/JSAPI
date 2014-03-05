@@ -162,6 +162,7 @@ function ScrKOJob(submissionUrl, industriesAndGuidelines, submittedFunction, cal
     }
     return false;
   };
+
   function Option(parentId, label){
     var self = this;
     self.parentId = ko.observable(parentId);
